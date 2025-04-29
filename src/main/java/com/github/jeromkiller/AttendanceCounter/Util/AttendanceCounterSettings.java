@@ -13,13 +13,8 @@ public class AttendanceCounterSettings {
 
     public static final String CONFIG_GROUP = "AttendanceCounter";
     public static final String CAPTURE_AREA_KEY = "captureAreas";
-    public static final String TICK_LENIENCY_KEY = "HaS_TickLeniency";
-    public static final String PLAYER_NAMES_KEY = "HaS_PlayerNames";
-    public static final String SHOW_RENDER_DIST = "HaS_ShowRenderDist";
-    public static final String HIDE_OVERLAY = "HaS_HideOverlay";
-    public static final String SCORERULES_KEY = "HaS_ScoreRules";
-    public static final String HIDE_UNFINISHED_KEY = "HaS_HideUnfinishedPlayers";
-    public static final String DEV_MODE_KEY = "HaS_DevMode";
+    public static final String SHOW_RENDER_DIST = "AC_ShowRenderDist";
+    public static final String HIDE_OVERLAY = "AC_HideOverlay";
 
     @Inject
     private ConfigManager configManager;
