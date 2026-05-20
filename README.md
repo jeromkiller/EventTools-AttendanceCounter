@@ -5,6 +5,7 @@ An area based attendance counter for community events.
 
 ## Features
   - Automated participant counting for community hosted events.
+  - Filtering options to track friends, friend channel and clan members separately.
 
 ## Setting up the tracker
 ### Creating capture areas
@@ -32,6 +33,10 @@ Anyone entering the capture area will automatically be counted as a participant.
 ![AttendancePanel](images/PlayersPanel.png)
 
 ## Other settings
+### Filters
+The 'Track x' options allow you to track specific groups of players separately.
+This allows for easy tracking specific groups you're interested in.
+
 ### Hide Overlay
 The 'Hide Overlay' option disables the in game capture area overlay without disabling the tracking on any capture areas that have been set to 'Visible'.
 This could be useful for capturing clean footage for your events cool highlight reel.
