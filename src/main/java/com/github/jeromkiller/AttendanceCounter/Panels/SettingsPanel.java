@@ -9,16 +9,17 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
 public class SettingsPanel extends BasePanel {
-    private final JSpinner tickLeniency = new JSpinner(new SpinnerNumberModel(2, 0, 100, 1));
     private final BlinklessToggleButton showRenderDist;
     private final BlinklessToggleButton hideOverlay;
+    private final BlinklessToggleButton filterAll;
+    private final BlinklessToggleButton filterFriends;
+    private final BlinklessToggleButton filterFriendsChat;
+    private final BlinklessToggleButton filterClanChat;
 
-    private final AttendanceCounterPlugin plugin;
     private final AttendanceCounterSettings settings;
 
     public SettingsPanel(AttendanceCounterPlugin plugin)
     {
-        this.plugin = plugin;
         this.settings = plugin.getSettings();
 
         setLayout(new BorderLayout());
@@ -32,6 +33,42 @@ public class SettingsPanel extends BasePanel {
         constraints.gridx = 0;
         constraints.gridy = 0;
         constraints.weightx = 1;
+        constraints.anchor = GridBagConstraints.WEST;
+
+
+        JLabel filterLabel = new JLabel("Filters");
+        filterLabel.setForeground(Color.WHITE);
+        contents.add(filterLabel, constraints);
+        constraints.gridy++;
+
+        filterAll = new BlinklessToggleButton("Track any player near you");
+        filterAll.setSelected(settings.getFilterAll());
+        filterAll.addItemListener(() -> settings.setFilterAll(filterAll.isSelected()));
+        addSettingRow("Track Anyone", filterAll, contents, constraints);
+
+        filterFriends = new BlinklessToggleButton("Track players on your Friends List");
+        filterFriends.setSelected(settings.getFilterFriends());
+        filterFriends.addItemListener(() -> settings.setFilterFriends(filterFriends.isSelected()));
+        addSettingRow("Track Friends", filterFriends, contents, constraints);
+
+        filterFriendsChat = new BlinklessToggleButton("Track players in your Friends Chat");
+        filterFriendsChat.setSelected(settings.getFilterFC());
+        filterFriendsChat.addItemListener(() -> settings.setFilterFC(filterFriendsChat.isSelected()));
+        addSettingRow("Track FC", filterFriendsChat, contents, constraints);
+
+        filterClanChat = new BlinklessToggleButton("Track players in your Clan Chat");
+        filterClanChat.setSelected(settings.getFilterCC());
+        filterClanChat.addItemListener(() -> settings.setFilterCC(filterClanChat.isSelected()));
+        addSettingRow("Track Clan", filterClanChat, contents, constraints);
+
+        constraints.gridx = 0;
+        constraints.anchor = GridBagConstraints.WEST;
+        contents.add(new JLabel(" "), constraints);
+        constraints.gridy++;
+        JLabel filtersMisc = new JLabel("Misc");
+        filtersMisc.setForeground(Color.WHITE);
+        contents.add(filtersMisc, constraints);
+        constraints.gridy++;
 
         hideOverlay = new BlinklessToggleButton("Hide the in game overlay. \nCapture areas previously set to 'visible' are still enabled");
         hideOverlay.setSelected(settings.getHideOverlay());

@@ -1,7 +1,7 @@
 package com.github.jeromkiller.AttendanceCounter;
 
 import com.github.jeromkiller.AttendanceCounter.Panels.CaptureArea.CaptureAreaManagementPanel;
-import com.github.jeromkiller.AttendanceCounter.Panels.AttendancePanel;
+import com.github.jeromkiller.AttendanceCounter.Panels.Attendance.AttendancePanel;
 import com.github.jeromkiller.AttendanceCounter.Panels.SettingsPanel;
 import lombok.Getter;
 import net.runelite.client.ui.ColorScheme;
@@ -40,7 +40,6 @@ public class AttendanceCounterPanel extends PluginPanel {
 
         areaPanel = new CaptureAreaManagementPanel(plugin);
         tabPane.addTab("Areas", new JScrollPane(areaPanel));
-
 
         setupPanel = new AttendancePanel(plugin);
         tabPane.addTab("Attendance", new JScrollPane(setupPanel));

@@ -14,6 +14,8 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import net.runelite.api.*;
+import net.runelite.api.clan.ClanChannel;
+import net.runelite.api.clan.ClanChannelMember;
 import net.runelite.api.events.*;
 import net.runelite.api.coords.WorldPoint;
 import net.runelite.client.callback.ClientThread;
@@ -40,6 +42,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.*;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @PluginDescriptor(
@@ -135,7 +138,7 @@ public class AttendanceCounterPlugin extends Plugin
 	@Subscribe
 	public void onConfigChanged(ConfigChanged event)
 	{
-
+		SwingUtilities.invokeLater(panel.getSetupPanel()::updatePanels);
 	}
 
 	@Subscribe
@@ -143,6 +146,21 @@ public class AttendanceCounterPlugin extends Plugin
 	{
 		loadSettings();
 		SwingUtilities.invokeLater(panel.getAreaPanel()::rebuild);
+	}
+
+	@Subscribe
+	public void onFriendsChatMemberJoined(FriendsChatMemberJoined memberJoined) {
+		SwingUtilities.invokeLater(() -> panel.getSetupPanel().addFCMember(memberJoined.getMember().getName()));
+	}
+
+	@Subscribe
+	public void onClanChannelChanged(ClanChannelChanged clanChanged) {
+		final ClanChannel cc = clanChanged.getClanChannel();
+		if (cc == null) {
+			return;
+		}
+		final List<String> ccMembers = cc.getMembers().stream().map(ClanChannelMember::getName).collect(Collectors.toList());
+		SwingUtilities.invokeLater(() -> panel.getSetupPanel().setClanChatMembers(ccMembers));
 	}
 
 	private void checkPlayersInRange()
@@ -171,6 +189,9 @@ public class AttendanceCounterPlugin extends Plugin
 				}
 
 				final String playerName = player.getName();
+				if(player.isFriend()) {
+					SwingUtilities.invokeLater(() -> panel.getSetupPanel().addFriend(playerName));
+				}
 
 				if(area.playerInArea(player.getWorldLocation()))
 				{
@@ -191,7 +212,6 @@ public class AttendanceCounterPlugin extends Plugin
 	public void updatePlayers() {
 		final int playerCount = playerNames.size();
 		panel.getSetupPanel().setPlayerNames(playerNames);
-		panel.getSetupPanel().setPlayerCount(playerCount);
 	}
 
 	public void startCaptureAreaCreation()
